@@ -16,31 +16,31 @@ func main() {
 	e.POST("/users/", func(c echo.Context) error {
 		return c.JSON(http.StatusCreated, User{Id: "dummy", Name: "Name"})
 	})
-	e.GET("/todo/:todoId", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, Todo{
+	e.GET("/tasks/:taskId", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, Task{
 			Id:          "dummy",
 			UserId:      "dummyUserID",
 			Status:      "TODO",
-			Description: "DummyTodo",
+			Description: "DummyTask",
 		})
 	})
-	e.PATCH("/todo/:todoId", func(c echo.Context) error {
-		return c.JSON(http.StatusCreated, Todo{
+	e.PATCH("/tasks/:taskId", func(c echo.Context) error {
+		return c.JSON(http.StatusCreated, Task{
 			Id:          "dummy",
 			UserId:      "dummyUserID",
 			Status:      "TODO",
-			Description: "DummyTodo",
+			Description: "DummyTask",
 		})
 	})
-	e.DELETE("/todo/:todoId", func(c echo.Context) error {
+	e.DELETE("/tasks/:taskId", func(c echo.Context) error {
 		return c.NoContent(http.StatusNoContent)
 	})
-	e.POST("/todo", func(c echo.Context) error {
-		return c.JSON(http.StatusCreated, Todo{
+	e.POST("/tasks", func(c echo.Context) error {
+		return c.JSON(http.StatusCreated, Task{
 			Id:          "dummy",
 			UserId:      "dummyUserID",
 			Status:      "TODO",
-			Description: "DummyTodo",
+			Description: "DummyTask",
 		})
 	})
 	e.Logger.Fatal(e.Start(":1234"))
@@ -51,7 +51,7 @@ type User struct {
 	Name string `json:"name"`
 }
 
-type Todo struct {
+type Task struct {
 	Id          string `json:"id"`
 	UserId      string `json:"userId"`
 	Status      string `json:"status"`

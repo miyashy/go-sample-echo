@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   version: 0.0.1
-  title: Todo Apis
-  description: Todo管理API
+  title: Task Apis
+  description: タスク管理API
 
 servers:
   - url: https://localhost:8080/
@@ -35,53 +35,53 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/User'
-  '/todo/{todoId}':
+  '/tasks/{taskId}':
     get:
-      summary: TODO取得
+      summary: Task取得
       parameters:
-        - $ref: '#/components/parameters/TodoIdPathParam'
-      responses: 
+        - $ref: '#/components/parameters/TaskIdPathParam'
+      responses:
         '200':
           description: 正常応答
-          content: 
+          content:
             'application/json':
-              schema: 
-                $ref: '#/components/schemas/Todo'
-  '/todo':
+              schema:
+                $ref: '#/components/schemas/Task'
+  '/tasks':
     post:
-      summary: TODO登録
-      requestBody: 
+      summary: タスク登録
+      requestBody:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/TodoCreateRequest'
+              $ref: '#/components/schemas/TaskCreateRequest'
       responses:
         '201':
           description: 正常応答
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Todo'
+                $ref: '#/components/schemas/Task'
     patch:
-      summary: TODO更新
+      summary: タスク更新
       parameters:
-        - $ref: '#/components/parameters/TodoIdPathParam'
+        - $ref: '#/components/parameters/TaskIdPathParam'
       requestBody:
         content:
           'application/json':
             schema:
-              $ref: '#/components/schemas/TodoCreateRequest'
+              $ref: '#/components/schemas/TaskCreateRequest'
       responses:
         '200':
           description: 正常応答
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/Todo'
-    delete: 
-      summary: TODO削除
+                $ref: '#/components/schemas/Task'
+    delete:
+      summary: タスク削除
       parameters:
-        - $ref: '#/components/parameters/TodoIdPathParam'
+        - $ref: '#/components/parameters/TaskIdPathParam'
       responses:
         '204':
           description: 正常応答
@@ -92,16 +92,16 @@ components:
       format: uuid
     UserName:
       type: string
-    TodoId:
+    TaskId:
       type: string
       format: uuid  
-    TodoStatus:
+    TaskStatus:
       type: string
       enum:
-        - TODO
+        - Task
         - IN_PROGRESS
         - DONE
-    TodoDescription:
+    TaskDescription:
       type: string
     UserCreateRequest:
       type: object
@@ -115,33 +115,33 @@ components:
           $ref: '#/components/schemas/UserId'
         name:
           $ref: '#/components/schemas/UserName'
-    TodoCreateRequest:
+    TaskCreateRequest:
       type: object
       properties:
         userId:
           $ref: '#/components/schemas/UserId'
         description:
-          $ref: '#/components/schemas/TodoDescription'
-    TodoPatchRequest:
+          $ref: '#/components/schemas/TaskDescription'
+    TaskPatchRequest:
       type: object
       properties:
         userId:
           $ref: '#/components/schemas/UserId'
         status:
-          $ref: '#/components/schemas/TodoStatus'
+          $ref: '#/components/schemas/TaskStatus'
         description:
-          $ref: '#/components/schemas/TodoDescription'
-    Todo:
+          $ref: '#/components/schemas/TaskDescription'
+    Task:
       type: object
       properties: 
         id:
-          $ref: '#/components/schemas/TodoId'
+          $ref: '#/components/schemas/TaskId'
         userId:
           $ref: '#/components/schemas/UserId'
         status:
-          $ref: '#/components/schemas/TodoStatus'
+          $ref: '#/components/schemas/TaskStatus'
         description:
-          $ref: '#/components/schemas/TodoDescription'
+          $ref: '#/components/schemas/TaskDescription'
   parameters: 
     UserIdPathParam:
       name: userId
@@ -149,9 +149,9 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/UserId'
-    TodoIdPathParam:
-      name: todoId
+    TaskIdPathParam:
+      name: TaskId
       in: path
       schema: 
-        $ref: '#/components/schemas/TodoId'
+        $ref: '#/components/schemas/TaskId'
         

@@ -2,6 +2,9 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
+	"go-sample-echo/domain/usecase"
+	"go-sample-echo/infrastructure/dao"
+	"go-sample-echo/ui/api"
 	"net/http"
 )
 
@@ -10,12 +13,10 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
-	e.GET("/users/:userId", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, User{Id: "dummy", Name: "Name"})
-	})
-	e.POST("/users/", func(c echo.Context) error {
-		return c.JSON(http.StatusCreated, User{Id: "dummy", Name: "Name"})
-	})
+
+	userHandler := api.NewUserHandler(usecase.NewUserUseCase(dao.NewUserRepositoryImpl()))
+	e.GET("/users/:id", userHandler.Get)
+	e.POST("/users", userHandler.Create)
 	e.GET("/tasks/:taskId", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, Task{
 			Id:          "dummy",

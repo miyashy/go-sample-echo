@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  version: 0.0.1
+  title: Todo Apis
+  description: Todo管理API
+
+servers:
+  - url: https://localhost:8080/
+
+paths:
+  '/users/{userId}':
+    get:
+      summary: ユーザー取得
+      parameters:
+        - $ref: '#/components/parameters/UserIdPathParam'
+      responses: 
+        '200':
+          description: 正常応答
+          content: 
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/User'
+  '/users':
+    post:
+      summary: ユーザー登録
+      requestBody: 
+        content: 
+          'application/json':
+            schema: 
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '201':
+          description: 正常応答
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/User'
+  '/todo/{todoId}':
+    get:
+      summary: TODO取得
+      parameters:
+        - $ref: '#/components/parameters/TodoIdPathParam'
+      responses: 
+        '200':
+          description: 正常応答
+          content: 
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/Todo'
+  '/todo':
+    post:
+      summary: TODO登録
+      requestBody: 
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/TodoCreateRequest'
+      responses:
+        '201':
+          description: 正常応答
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Todo'
+    patch:
+      summary: TODO更新
+      parameters:
+        - $ref: '#/components/parameters/TodoIdPathParam'
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/TodoCreateRequest'
+      responses:
+        '200':
+          description: 正常応答
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Todo'
+    delete: 
+      summary: TODO削除
+      parameters:
+        - $ref: '#/components/parameters/TodoIdPathParam'
+      responses:
+        '204':
+          description: 正常応答
+components:
+  schemas: 
+    UserId:
+      type: string
+      format: uuid
+    UserName:
+      type: string
+    TodoId:
+      type: string
+      format: uuid  
+    TodoStatus:
+      type: string
+      enum:
+        - TODO
+        - IN_PROGRESS
+        - DONE
+    TodoDescription:
+      type: string
+    UserCreateRequest:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/UserName'
+    User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        name:
+          $ref: '#/components/schemas/UserName'
+    TodoCreateRequest:
+      type: object
+      properties:
+        userId:
+          $ref: '#/components/schemas/UserId'
+        description:
+          $ref: '#/components/schemas/TodoDescription'
+    TodoPatchRequest:
+      type: object
+      properties:
+        userId:
+          $ref: '#/components/schemas/UserId'
+        status:
+          $ref: '#/components/schemas/TodoStatus'
+        description:
+          $ref: '#/components/schemas/TodoDescription'
+    Todo:
+      type: object
+      properties: 
+        id:
+          $ref: '#/components/schemas/TodoId'
+        userId:
+          $ref: '#/components/schemas/UserId'
+        status:
+          $ref: '#/components/schemas/TodoStatus'
+        description:
+          $ref: '#/components/schemas/TodoDescription'
+  parameters: 
+    UserIdPathParam:
+      name: userId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/UserId'
+    TodoIdPathParam:
+      name: todoId
+      in: path
+      schema: 
+        $ref: '#/components/schemas/TodoId'
+        
